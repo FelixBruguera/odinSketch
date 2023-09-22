@@ -2,17 +2,21 @@ let grid = 16;
 const body = document.querySelector("body");
 const container = document.querySelector("#container");
 const gridButton = document.querySelector("#gridButton");
+const clear = document.querySelector("#clearButton");
+const changeColor = document.querySelector("#changeColor");
+const dark = document.querySelector("#darkeningButton");
+const start = document.querySelector("#start");
 
 function makeSmallDivs () {
         for (let i = 0; i < grid*grid;i++) {
-        let smallDiv = document.createElement("div");
-        smallDiv.classList.add("smallDiv");
-        smallDiv.dataset.smallDiv = i;
-        let flexbasis = 100/(grid);
-        container.style.flexBasis = flexbasis;
-        smallDiv.style.height = `${100/grid}%`;
-        smallDiv.style.width = `${100/grid}%`;
-        container.appendChild(smallDiv);
+            let smallDiv = document.createElement("div");
+            smallDiv.classList.add("smallDiv");
+            smallDiv.dataset.smallDiv = i;
+            let flexbasis = 100/(grid);
+            container.style.flexBasis = flexbasis;
+            smallDiv.style.height = `${100/grid}%`;
+            smallDiv.style.width = `${100/grid}%`;
+            container.appendChild(smallDiv);
         }
 };
 makeSmallDivs();
@@ -21,27 +25,66 @@ let smallDivs = document.querySelectorAll(".smallDiv");
 function removeDivs() {
     while (container.firstChild) {
         container.removeChild(container.firstChild);
-    }
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
     };
 };
 
-gridButton.addEventListener("click", function () {
-    newGrid = prompt("Squares per side (Max 100)");
-    grid = newGrid;
+gridButton.addEventListener("mouseover", function () {
+    for (let i = 1; i < 65;i++) {
+        let option = document.createElement("option");
+        option.textContent = i;
+        gridButton.appendChild(option);
+    };
+},{once: true});
+
+gridButton.addEventListener("change",function (e) {
+    grid = e.target.value;
     removeDivs();
     makeSmallDivs();
-
+    smallDivs = document.querySelectorAll(".smallDiv");
 });
-smallDivs = document.querySelectorAll(".smallDiv");
+let color = "black";
 function hover() {
-    body.addEventListener("mouseover", function (e) {
-        let mainId = e.target.parentElement.dataset.mainDiv;
+    container.addEventListener("mouseover", function draw (e) {
         let childId = e.target.dataset.smallDiv;
-        console.log(mainId);
-        console.log(childId);
         let child = document.querySelector(`[data-small-div= "${childId}"]`);
-        child.style.backgroundColor = "black";
-})};
-body.addEventListener("click",hover);
+        child.style.backgroundColor = color;
+    container.addEventListener("click", () => {
+        container.removeEventListener("mouseover",draw)
+        start.textContent = "Start Drawing";
+    })})};
+start.addEventListener("click", () => {
+    hover();
+    start.textContent = "Click to stop";
+});
+changeColor.addEventListener("change", function (e) {
+    return color = e.target.value;
+});
+dark.addEventListener("click",function () {
+    let hex = changeColor.value.slice(1);
+    let rgb = [];
+    for (let c = 0;c < 5;c++) {
+        let col = hex.slice(c,c+2);
+        col = parseInt(col,16);
+        rgb.push(col);
+        c++;
+    };
+    let percent = 9;
+        container.addEventListener("mouseover", function(e) {
+            if (percent > -1) {
+                let childId = e.target.dataset.smallDiv;
+                let child = document.querySelector(`[data-small-div= "${childId}"]`);
+                let newRgb = [];
+                rgb.forEach((element) => newRgb.push(element*(percent/10)));
+                child.style.backgroundColor = `rgb(${newRgb[0]},${newRgb[1]},${newRgb[2]})`;
+                percent--;
+            }
+            else {
+                return "";
+            };
+            })
+});
+clear.addEventListener("click",function () {
+    smallDivs.forEach(element => {
+        element.style.backgroundColor = "white";
+    });
+})

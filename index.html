@@ -8,7 +8,20 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <button id="gridButton">Change grid</button>
-    <div id="container"></div>
+        <div id="buttons">
+                <div id="grid">
+                    <label for="gridButton">Grid size</label>
+                    <select id="gridButton"></select>
+                </div>
+            <div id="color">
+                <label for="changeColor">Change color</label>
+                <input type="color" id="changeColor"></input>
+            </div>
+                <p id="title">Etch-a-Sketch</p>
+                <button id="clearButton">Clear</button>
+                <button id="darkeningButton">Darkening</button>
+        </div>
+        <button id="start">Start Drawing</button>
+        <div id="container"></div>
 </body>
 </html>
