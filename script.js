@@ -6,6 +6,7 @@ const clear = document.querySelector("#clearButton");
 const changeColor = document.querySelector("#changeColor");
 const dark = document.querySelector("#darkeningButton");
 const start = document.querySelector("#start");
+const title = document.querySelector("#title");
 
 function makeSmallDivs () {
         for (let i = 0; i < grid*grid;i++) {
@@ -48,41 +49,46 @@ function hover() {
         let childId = e.target.dataset.smallDiv;
         let child = document.querySelector(`[data-small-div= "${childId}"]`);
         child.style.backgroundColor = color;
+        title.style.color = "lime";
     body.addEventListener("keydown", (e) => {
         if (e.code == 'KeyS') {
+            title.style.color = "white";
             container.removeEventListener("mouseover",draw)
             start.textContent = "Click to start drawing";}
     })})};
 container.addEventListener("click", () => {
     hover();
-    start.textContent = "Press S to stop";
+    start.textContent = "Press S to stop - Press D for Darkening";
 });
 changeColor.addEventListener("change", function (e) {
     return color = e.target.value;
 });
-dark.addEventListener("click",function () {
-    let hex = changeColor.value.slice(1);
-    let rgb = [];
-    for (let c = 0;c < 5;c++) {
-        let col = hex.slice(c,c+2);
-        col = parseInt(col,16);
-        rgb.push(col);
-        c++;
-    };
-    let percent = 9;
-        container.addEventListener("mouseover", function(e) {
-            if (percent > -1) {
-                let childId = e.target.dataset.smallDiv;
-                let child = document.querySelector(`[data-small-div= "${childId}"]`);
-                let newRgb = [];
-                rgb.forEach((element) => newRgb.push(element*(percent/10)));
-                child.style.backgroundColor = `rgb(${newRgb[0]},${newRgb[1]},${newRgb[2]})`;
-                percent--;
-            }
-            else {
-                return "";
-            };
-            })
+body.addEventListener("keydown",function (e) {
+    if (e.code == "KeyD") {
+        let hex = changeColor.value.slice(1);
+        let rgb = [];
+        for (let c = 0;c < 5;c++) {
+            let col = hex.slice(c,c+2);
+            col = parseInt(col,16);
+            rgb.push(col);
+            c++;
+        };
+        let percent = 9;
+            container.addEventListener("mouseover", function(e) {
+                if (percent > -1) {
+                    dark.style.backgroundColor = "lime";
+                    let childId = e.target.dataset.smallDiv;
+                    let child = document.querySelector(`[data-small-div= "${childId}"]`);
+                    let newRgb = [];
+                    rgb.forEach((element) => newRgb.push(element*(percent/10)));
+                    child.style.backgroundColor = `rgb(${newRgb[0]},${newRgb[1]},${newRgb[2]})`;
+                    percent--;
+                }
+                else {
+                    dark.style.backgroundColor = "#34421E";
+                    return "";
+                };
+                })}
 });
 clear.addEventListener("click",function () {
     smallDivs.forEach(element => {
