@@ -58,14 +58,11 @@ body {
 #start {
     margin-left: auto;
     margin-right: auto;
-    width: 150px;  
     margin-bottom: 2px;
     margin-top: 0;
     font-weight: 800;
     font-size: 18px;
     font-family: serif;
-    border: 2px solid white;
-    border-radius: 15px;
     background-color: #34421E;
     color: white;
 }

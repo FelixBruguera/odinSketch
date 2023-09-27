@@ -7,7 +7,7 @@
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body  ondragstart="return false;" ondrop="return false;">
         <div id="buttons">
                 <div id="grid">
                     <label for="gridButton">Grid size</label>
@@ -21,7 +21,7 @@
                 <button id="clearButton">Clear</button>
                 <button id="darkeningButton">Darkening</button>
         </div>
-        <button id="start">Start Drawing</button>
+        <p id="start">Click to start drawing</p>
         <div id="container"></div>
 </body>
 </html>

@@ -48,13 +48,14 @@ function hover() {
         let childId = e.target.dataset.smallDiv;
         let child = document.querySelector(`[data-small-div= "${childId}"]`);
         child.style.backgroundColor = color;
-    container.addEventListener("click", () => {
-        container.removeEventListener("mouseover",draw)
-        start.textContent = "Start Drawing";
+    body.addEventListener("keydown", (e) => {
+        if (e.code == 'KeyS') {
+            container.removeEventListener("mouseover",draw)
+            start.textContent = "Click to start drawing";}
     })})};
-start.addEventListener("click", () => {
+container.addEventListener("click", () => {
     hover();
-    start.textContent = "Click to stop";
+    start.textContent = "Press S to stop";
 });
 changeColor.addEventListener("change", function (e) {
     return color = e.target.value;
